@@ -1,0 +1,698 @@
+#go{
+	position: fixed;
+	right: 30px;
+	top: 30px;
+	border-radius: 50%;
+	z-index: 1001;
+}
+#more{
+	position: fixed;
+	bottom: 60px;
+	right: 80px;
+	z-index: 1001;
+	animation:sofa1 0.4s linear 1s infinite alternate;
+}
+.content{
+	/*
+		如果想让一个设置了position的元素在页面中水平居中
+			- left:50%;
+			- margin-left:等于该元素宽度的一半
+	*/
+	width: 900px;
+	height: 600px;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	
+	margin-left: -450px;	
+}
+/* 设置第一屏的背景 
+	布局：定位 动画：位移*/
+.screen1{
+	background:url("../images/01-bg.png") no-repeat center bottom;
+}
+/* 设置商品的位置 */
+.screen1 .goods{
+	text-align: center;
+	margin-top: 200px;
+
+}
+/* 设置沙发的位置 */
+.screen1 .sofa{
+	position: absolute;
+	left: 180px;
+	top: 110px;
+	animation:sofa1 0.5s linear infinite alternate;
+} 
+/* 设置第一屏的横幅 */
+.screen1 .fly{
+	position: absolute;
+	right: -50px;
+	top: 30px;
+	animation:fly1 1s linear infinite alternate; /*无穷次 逆播放*/
+}
+/* 设置第一屏的动画 */
+@keyframes fly1{
+	from{
+		transform:translateY(-30px);
+	}
+	to{
+		transform:translateY(30px);
+	}
+}
+@keyframes sofa1{
+	from{
+		transform:translateY(-15px);
+	}
+	to{
+		transform:translateY(15px);
+	}
+}
+@keyframes more1{
+	from{
+		transform:translateY(-5px);
+	}
+	to{
+		transform:translateY(5px);
+	}
+}
+
+/* 第二屏实现，动画实现需要块级元素 */
+.screen2{
+	background: url("../images/02-bg.png") no-repeat center bottom;
+}
+.screen2 .goods{
+	position: absolute;
+	left: 50%;
+	margin-left: -220px;
+	bottom: 205px;
+	transform-origin:right bottom;
+	transform:scale(0);
+}
+.screen2 .sofa{
+	/* 将沙发缩放 */
+	transform:scale(0.5);
+	position: absolute;
+	left:291px;
+	top:136px;
+	opacity: 0;
+}
+.screen2 .input{
+	position: absolute;
+	right: 180px;
+	top:120px;
+	/* 最终状态：transform:scale(0.7); */
+	/* 中心位置：transform:translate(-180px,130px); */
+	/* 初始位置：transform:translate(2000px,130px); */
+	transform-origin:right top;
+	opacity: 0;
+}
+.screen2.now .input{
+	/*控制动画完成后状态  backwards(完成后回到原来状态)，forwards(保持最后状态)
+		1s从右边移到中心，1s在中心让key显示，1s从中心移到右上角*/
+	animation:input2 3s linear forwards;
+}
+.screen2 .input .key{
+	position: absolute;
+	left: 100px;
+	top:4px;
+	opacity: 0;
+}
+
+
+.screen2.now .goods{
+	/* 当搜索框从中心位置离开时，显示商品 */
+	transform:none;
+	transition:all 1s linear 2s;
+} 
+.screen2 .text{
+	text-align: center;
+}
+.screen2 .text .text2{
+	/*先让这个隐藏，并非只有display一种方式
+		不占位，透明图为0*/
+	position: absolute;
+	opacity: 0;
+}
+/* 
+	当两个选择器中间没有空格时，表示同时拥有者两个class
+	.now表示这个页面当前可见时 */
+.screen2.now .text .text1{
+	/*将这个文本隐藏，另外一个显示*/
+	position: absolute;
+	opacity: 0;
+}
+.screen2.now .text .text2{
+	
+	position: static;
+	opacity: 1;
+	transition:opacity 1s;
+}
+ .screen2.now .input .key{
+	/* 当搜索框移动到中心位置时（1s后），让key显示 */
+	opacity: 1;
+	transition:opacity 1s linear 1s;
+} 
+
+/* 沙发的动画
+	0、右边不可见
+	1、从右边移动到电脑屏幕中心
+	2、在中心待一下，让key显示出来
+	3、移动到右上角 */
+@keyframes input2{
+	0%{
+		/*初始位置*/
+		opacity: 1;
+		transform:translate(2000px,130px);
+	}
+	33.3%{
+		/*移动到中心位置*/
+		transform:translate(-180px,130px);
+	}
+	66.7%{
+		transform:translate(-180px,130px);
+	}
+	100%{
+		opacity: 1;
+		transform:scale(0.7);
+	}
+}
+/*设置第二屏的沙发往下调到第三屏的动画*/
+.screen2.leaved .sofa{
+	
+	animation:sofa2 1s linear ;
+	z-index: 1001;
+}
+@keyframes sofa2{
+	from{
+		opacity: 1;
+	}
+	to{
+		opacity: 1;
+		transform:translate(-80px,700px);
+	}
+}
+/* 第三屏 */
+.screen3{
+	background: url("../images/03-bg.png") no-repeat center bottom;
+}
+
+/*先隐藏change02和cart02*/
+.screen3 .change img:last-child{
+	position: absolute;
+	opacity:0;
+	right: 114px;
+	bottom: 165px;
+}
+.screen3 .cart img:last-child{
+	position: absolute;
+	right: 192px;
+	bottom: 100px;
+	opacity: 0;
+}
+.screen3 .change img:first-child{
+	position: absolute;
+	right: 114px;
+	bottom: 165px;
+}
+.screen3 .cart img:first-child{
+	position: absolute;
+	right: 192px;
+	bottom: 100px;
+}
+.screen3 .sofa{
+	position: absolute;
+	top: 200px;
+	left: 210px;
+	display: none;
+}
+/*设置动画*/
+.screen3.now .change img:last-child{
+	opacity: 1;
+	transition:all 1s linear;
+}
+.screen3.now .change img:first-child{
+	display: none;
+}
+.screen3.now .cart img:last-child{
+	opacity: 1;
+	transition:all 1s linear;
+}
+.screen3.now .cart img:first-child{
+	display: none;
+}
+.screen3.now .sofa{
+	display: block;
+	transition:all 1s linear;
+	z-index: 1001;
+} 
+
+/*第四屏*/
+.screen4{
+	background: url("../images/04-bg.png") no-repeat center bottom;
+}
+.screen4 .cloud{
+	position: absolute;
+	left: -400px;
+	top:-20px;
+	animation:cloud4 20s linear infinite alternate;
+}
+@keyframes cloud4{
+	from{
+		transform:translateX(-900px);
+	}
+	to{
+		transform:translateX(1400px);
+	}
+}
+.screen4 .text{
+	text-align: center;
+	margin-top: 115px;
+}
+.screen4 .text img:last-child{
+	position: absolute;
+	opacity: 0;
+}
+.screen4 .cart{
+	text-align: center;
+	margin-top: 65px;
+	position: relative;
+	/*只有开启定义，z-index才有效*/
+	z-index: 1002;
+}
+/*沙发从第三节到第四节*/
+.screen3.leaved .sofa{
+	/*1、组合写法，多个属性之间用空格
+	  2、如果先旋转，那么坐标轴也会跟着旋转
+	  3、所以最好先位移，再旋转*/
+	animation:sofa3 1s linear;
+}
+@keyframes sofa3{
+	from{}
+	to{
+		transform:translate(185px,635px) rotate(45deg); 
+	}
+}
+
+.screen4 .sofa{
+	position: absolute;
+	left: 395px;
+	top: 202px;
+	z-index: 1001;
+	transform:rotate(45deg);
+	opacity: 0;
+}
+
+/*做这种动画，做延时，需要掐时间
+在css3中，监听到过度结束:transitionend
+监听到动画结束：animationend*/
+.screen4.now .sofa{
+	opacity: 1;
+	transform:translateX(1000px);
+	transition:transform 3s linear;
+
+}
+
+.screen4.now .cart{
+	transform:translateX(1000px);
+	transition:all 3s linear;
+}
+
+.screen4 .address{
+	position: absolute;
+	/*css3居中*/
+	left: 50%;
+	transform:translateX(-50%);
+	bottom: 150px;
+	display: none;
+}
+.screen4 .address img:last-child{
+	position: absolute;
+	left: 50%;
+	transform:translateX(-50%);
+	bottom: 170px;
+	display: none;
+}
+.screen4 .text.leaved img:first-child{
+	position: absolute;
+	opacity: 0;
+}
+.screen4 .text.leaved img:last-child{
+	position: static;
+	opacity: 1;
+}
+/*
+	四种常用转换：
+		- 缩放 scale
+		- 位移 translate
+		- 旋转 rotate
+		- 倾斜 skew
+	动画速度：
+		- ease 先快后慢，最后非常慢
+		- linear 匀速
+		- ease-in 速度越来越快
+		- ease-out 速度越来越慢
+		- ease-in-out 速度先快后慢
+*/
+
+/*第五屛*/
+.screen5 {
+	background: url("../images/05-bg.png") no-repeat;
+}
+.screen5 .text{
+	position: relative;
+	top:20px;
+}
+.screen5 .sofa{
+	position: absolute;
+	bottom: 120px;
+	left: 100px;
+	transform:rotate(30deg);
+	opacity: 0;
+	z-index: 1001;
+}
+.screen5 .card{
+	position: absolute;
+	top:180px;
+}
+.screen5 .card .cardImg{
+	position: relative;
+	z-index: 1002;
+}
+.screen5 .card .orderImg{
+	position: absolute;
+	left: 120px;
+	top: -70px;
+	transform:translateY(70px);
+}
+.screen5 .mouse{
+	position: absolute;
+	height: 900px;
+	width: 400px;
+	top:-33px;
+	right: 0;
+	overflow: hidden;
+}
+.screen5 .mouse .m1,.m2{
+	position: absolute;
+	top:-380px;
+	right: 100px;
+}
+.screen5 .mouse .m2{
+	opacity: 0;
+}
+.screen5 .mouse .hand{
+	position: absolute;
+	right:140px;
+	bottom: 250px;
+
+	/*手先移下去*/
+	transform:translateY(400px);
+}
+/*第五节动画*/
+.screen5.now .mouse .hand{
+	/*取消transform属性*/
+	transform:none;
+	transition:all 1s linear;
+}
+.screen5.now .mouse .m2{
+	opacity: 1;
+	transition:all 0.2s linear 1s;
+}
+.screen5.now .sofa{
+	animation:sofa5 2s linear 1.2s forwards;
+}
+@keyframes sofa5{
+	from{
+		opacity: 1;
+		transform:translateY(-900px) rotate(30deg);
+	}
+	50%{
+		transform:translateY(-150px) rotate(30deg);
+	}
+	100%{
+		opacity: 1;
+		transform:rotate(30deg);
+	}
+}
+.screen5.now .orderImg{
+	transform:none;
+	transition:1s linear 2.2s;
+}
+
+/*沙发离开第五节前往第六节*/
+.screen5.leaved .sofa{
+	animation:sofa5-6 1s linear;
+} 
+@keyframes sofa5-6{
+	from{
+		opacity: 1;
+	}
+	to{
+		opacity: 1;
+		transform:translate(35px,500px) scale(0.2) ;
+	}
+}
+
+/*第六节*/
+/*
+	背景图的百分比，从左边的x距离开始铺，这个百分比不是基于容器的大小
+	是基于（容器-背景图）的大小
+	距离x = (容器大小 - 背景图大小)*百分比
+	当容器宽度大于背景图时，向左移，小于则向右移
+	当百分比为100%时，移到最右边
+*/
+.screen6{
+	background: url("../images/06-bg.png") no-repeat 25% bottom;
+}
+.screen6.now{
+	background: url("../images/06-bg.png") no-repeat 100% bottom;
+	transition:all 2s linear 1s;
+} 
+
+.screen6 .cloud{
+	position: absolute;
+	top:-50px;
+	left: -50px;
+}
+.screen6 .cloud #c1{
+	position: absolute;
+	animation:cloud6 20s linear infinite alternate;
+}
+.screen6 .cloud #c2{
+	position: absolute;
+	top: 0;
+	left: -80px;
+	animation:cloud6 40s linear infinite alternate;
+}
+
+@keyframes cloud6{
+	form{}
+	to{
+		transform:translateX(1000px);
+	}
+}
+.screen6 .text{
+	position: absolute;
+	left: 170px;
+	top: 90px;
+	width: 308px;
+	height: 59px;
+}
+.screen6 .text #t2{
+	position: absolute;
+	left: 0;
+	top:0;
+	display: none;
+}
+.screen6 .box{
+	position: absolute;
+	top:200px;
+	left: 180px;
+}
+.screen6 .box.now{
+	animation:box6 2s linear forwards;
+}
+@keyframes box6{
+	from{
+		transform:translateX(-500px);
+	}
+	50%{
+		transform:none;
+	}
+	to{
+		transform:translateY(300px) scale(0.5);
+	}
+}
+
+.screen6 .car img{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	opacity: 0;
+}
+.screen6 .car .carImg{
+	left: 135px;
+	opacity: 1;
+}
+
+.screen6 .car .buyerImg{
+
+	left: 300px;
+	bottom: 120px;
+}
+.screen6.now .car .buyerImg{
+	opacity: 1;
+	transition:all 0.75s linear 1.25s;
+}
+
+
+.screen6 .car .addImg{
+	left: 300px;
+	bottom: 120px;
+}
+.screen6.now .car .addImg{
+	opacity: 1;
+	transition:all 1s linear 2s;
+}
+.screen6 .car .workImg{
+	
+	left: 100px;
+	bottom:0;
+	transform:scale(0.4);
+	transform-origin:bottom;
+}
+.screen6.now .car .workImg{
+	animation:worker6 2s linear 3s forwards;
+}
+
+@keyframes worker6{
+	from{
+	}
+	50%{
+		opacity: 1;
+
+	}
+	75%{
+		transform:translateY(-110px);
+	}
+	to{
+		opacity: 1;
+		transform:translateY(-110px) translateX(200px);
+	}
+}
+.screen6 .car .sayImg{
+	top:20px;
+	left: 450px;
+}
+.screen6 .car .sayImg.say{
+	opacity: 1;
+	transition:all 0.5s linear;
+}
+.screen6 .person{
+	position: absolute;
+	width: 106px;
+	height: 150px;
+	right: 50px;
+	bottom: 116px;
+}
+.screen6 .person img:first-child{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	transform:scale(0.5);
+	transform-origin:bottom right;
+	opacity: 0;
+	z-index: 2;
+}
+.screen6 .person .door{
+	position: absolute;
+	opacity: 0;
+}
+.screen6 .person .door.open{
+	opacity: 1;
+	transition:all 0.5s linear forwards;
+}
+.screen6.now .person img:first-child{
+	animation:person6 2s linear 6s forwards;
+
+}
+@keyframes person6{
+	from{
+
+	}
+	50%{
+		opacity: 1;
+		transform:none;
+	}
+	to{
+		opacity: 1;
+		transform:translateX(-200px);
+	}
+}
+
+/*第七节*/
+.screen7{
+	background: url("../images/07-bg.png") no-repeat bottom;
+}
+.screen7 .star{
+	position: absolute;
+	left: 158px;
+	top:141px;
+}
+.screen7 .star img{
+	float: left;
+	margin-right:6px;
+	display: none;
+}
+.screen7 .text{
+	position: absolute;
+	left: 165px;
+	top:175px;
+	transform-origin:left bottom;
+	transform:scale(0);
+}
+.screen7 .text.show{
+	animation:text7 1s linear 2.3s forwards;
+}
+@keyframes text7{
+	from{}
+	70%{
+		transform:scale(1.2);
+	}
+	to{
+		transform:none;
+	}
+}
+
+/*第八节*/
+.screen8{
+	background: url("../images/08-bg.png");
+}
+.screen8 .btn{
+	position: absolute;
+	width: 389px;
+	height: 160px;
+	left: 50%;
+	transform:translateX(-50%);
+}
+.screen8 .btn img:last-child{
+	position: absolute;
+	left: 0;
+	top:0;
+	opacity: 0;
+}
+.screen8 .btn:hover img:last-child{
+	opacity: 1;
+}
+.screen8 .again{
+	position: absolute;
+	right: 0;
+	top: 80px;
+}
+.screen8 .hand{
+	position: absolute;
+	left: 50%;
+	top:100px;
+	transform:translateX(-50%);
+}
